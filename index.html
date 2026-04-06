@@ -1,0 +1,893 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>제주더큰내일센터 뉴스레터</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@300;400;500;600&family=Noto+Sans+KR:wght@300;400;500&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --jeju-dark: #0d1117;
+    --jeju-navy: #111827;
+    --jeju-teal: #0ea5a0;
+    --jeju-teal-light: #5eead4;
+    --jeju-stone: #8a9bb0;
+    --jeju-mist: #c8d8e8;
+    --jeju-white: #f0f4f8;
+    --jeju-cream: #fafbfc;
+    --accent-orange: #f97316;
+    --accent-coral: #fb7185;
+    --card-bg: rgba(255,255,255,0.04);
+    --border: rgba(255,255,255,0.08);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--jeju-dark);
+    color: var(--jeju-white);
+    font-family: 'Noto Sans KR', sans-serif;
+    font-weight: 300;
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+
+  /* ── NOISE TEXTURE ── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 40px;
+    height: 60px;
+    background: rgba(13,17,23,0.85);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .nav-logo {
+    font-family: 'Noto Serif KR', serif;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--jeju-teal-light);
+    letter-spacing: 0.05em;
+  }
+
+  .nav-date {
+    font-size: 11px;
+    color: var(--jeju-stone);
+    letter-spacing: 0.1em;
+  }
+
+  .nav-badge {
+    background: var(--jeju-teal);
+    color: #fff;
+    font-size: 10px;
+    font-weight: 500;
+    padding: 3px 10px;
+    border-radius: 20px;
+    letter-spacing: 0.05em;
+  }
+
+  /* ── HERO ── */
+  .hero {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 120px 40px 80px;
+    overflow: hidden;
+  }
+
+  /* animated orbs */
+  .hero::after {
+    content: '';
+    position: absolute;
+    width: 700px; height: 700px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(14,165,160,0.12) 0%, transparent 70%);
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    animation: pulse 6s ease-in-out infinite;
+  }
+
+  .orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(80px);
+    opacity: 0.25;
+    animation: drift 12s ease-in-out infinite;
+  }
+  .orb-1 { width: 400px; height: 400px; background: #0ea5a0; top: 10%; left: -100px; animation-delay: 0s; }
+  .orb-2 { width: 300px; height: 300px; background: #5eead4; bottom: 20%; right: -80px; animation-delay: -4s; }
+  .orb-3 { width: 200px; height: 200px; background: #fb7185; top: 60%; left: 40%; animation-delay: -8s; }
+
+  @keyframes drift {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    33% { transform: translate(30px, -20px) scale(1.05); }
+    66% { transform: translate(-20px, 30px) scale(0.95); }
+  }
+
+  @keyframes pulse {
+    0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+    50% { transform: translate(-50%, -50%) scale(1.1); opacity: 0.7; }
+  }
+
+  .hero-eyebrow {
+    position: relative;
+    z-index: 1;
+    font-size: 11px;
+    letter-spacing: 0.25em;
+    color: var(--jeju-teal-light);
+    text-transform: uppercase;
+    margin-bottom: 28px;
+    opacity: 0;
+    animation: fadeUp 0.8s ease forwards 0.2s;
+  }
+
+  .hero-title {
+    position: relative;
+    z-index: 1;
+    font-family: 'DM Serif Display', 'Noto Serif KR', serif;
+    font-size: clamp(42px, 7vw, 88px);
+    font-weight: 400;
+    line-height: 1.08;
+    letter-spacing: -0.02em;
+    margin-bottom: 24px;
+    opacity: 0;
+    animation: fadeUp 0.8s ease forwards 0.4s;
+  }
+
+  .hero-title em {
+    font-style: italic;
+    color: var(--jeju-teal-light);
+  }
+
+  .hero-sub {
+    position: relative;
+    z-index: 1;
+    font-size: 16px;
+    color: var(--jeju-stone);
+    max-width: 480px;
+    margin: 0 auto 48px;
+    opacity: 0;
+    animation: fadeUp 0.8s ease forwards 0.6s;
+  }
+
+  .hero-pills {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    flex-wrap: wrap;
+    opacity: 0;
+    animation: fadeUp 0.8s ease forwards 0.8s;
+  }
+
+  .pill {
+    padding: 10px 22px;
+    border-radius: 30px;
+    font-size: 13px;
+    font-weight: 400;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    letter-spacing: 0.03em;
+  }
+
+  .pill-primary {
+    background: var(--jeju-teal);
+    color: #fff;
+    border: none;
+  }
+  .pill-primary:hover { background: var(--jeju-teal-light); color: var(--jeju-dark); transform: translateY(-2px); }
+
+  .pill-ghost {
+    background: transparent;
+    color: var(--jeju-mist);
+    border: 1px solid rgba(255,255,255,0.2);
+  }
+  .pill-ghost:hover { border-color: var(--jeju-teal-light); color: var(--jeju-teal-light); transform: translateY(-2px); }
+
+  /* scroll indicator */
+  .scroll-hint {
+    position: absolute;
+    bottom: 40px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    opacity: 0;
+    animation: fadeUp 0.8s ease forwards 1.2s;
+  }
+  .scroll-hint span { font-size: 10px; letter-spacing: 0.2em; color: var(--jeju-stone); text-transform: uppercase; }
+  .scroll-line {
+    width: 1px;
+    height: 40px;
+    background: linear-gradient(to bottom, var(--jeju-teal), transparent);
+    animation: scrollLine 2s ease-in-out infinite;
+  }
+  @keyframes scrollLine { 0% { opacity: 0; transform: scaleY(0); transform-origin: top; } 50% { opacity: 1; transform: scaleY(1); } 100% { opacity: 0; transform: scaleY(0); transform-origin: bottom; } }
+
+  /* ── SECTION BASE ── */
+  section { position: relative; z-index: 1; padding: 100px 40px; }
+
+  .section-label {
+    font-size: 10px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--jeju-teal);
+    margin-bottom: 16px;
+  }
+
+  .section-title {
+    font-family: 'Noto Serif KR', serif;
+    font-size: clamp(28px, 4vw, 48px);
+    font-weight: 400;
+    line-height: 1.3;
+    margin-bottom: 16px;
+    color: var(--jeju-white);
+  }
+
+  .section-desc {
+    font-size: 14px;
+    color: var(--jeju-stone);
+    max-width: 500px;
+    margin-bottom: 56px;
+  }
+
+  /* ── DASHBOARD ── */
+  .dashboard-section {
+    background: linear-gradient(180deg, rgba(14,165,160,0.04) 0%, transparent 100%);
+    border-top: 1px solid var(--border);
+  }
+
+  .dashboard-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    overflow: hidden;
+    margin-bottom: 48px;
+  }
+
+  .stat-card {
+    background: var(--jeju-navy);
+    padding: 40px 32px;
+    transition: background 0.3s;
+  }
+  .stat-card:hover { background: rgba(14,165,160,0.08); }
+
+  .stat-num {
+    font-family: 'DM Serif Display', serif;
+    font-size: 52px;
+    font-weight: 400;
+    line-height: 1;
+    margin-bottom: 8px;
+    background: linear-gradient(135deg, var(--jeju-teal-light), var(--jeju-teal));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .stat-unit {
+    font-size: 18px;
+    font-family: 'Noto Serif KR', serif;
+  }
+
+  .stat-label {
+    font-size: 13px;
+    color: var(--jeju-stone);
+    margin-bottom: 12px;
+  }
+
+  .stat-change {
+    font-size: 11px;
+    padding: 3px 8px;
+    border-radius: 6px;
+    display: inline-block;
+  }
+  .stat-change.up { background: rgba(94,234,212,0.1); color: var(--jeju-teal-light); }
+  .stat-change.new { background: rgba(249,115,22,0.1); color: var(--accent-orange); }
+
+  /* progress bars */
+  .progress-section {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+  }
+
+  .progress-card {
+    background: var(--jeju-navy);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 28px;
+  }
+
+  .progress-title {
+    font-size: 13px;
+    color: var(--jeju-stone);
+    margin-bottom: 20px;
+    letter-spacing: 0.05em;
+  }
+
+  .progress-item {
+    margin-bottom: 16px;
+  }
+
+  .progress-meta {
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+    margin-bottom: 6px;
+  }
+  .progress-name { color: var(--jeju-mist); }
+  .progress-val { color: var(--jeju-teal-light); }
+
+  .progress-bar {
+    height: 4px;
+    background: rgba(255,255,255,0.06);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%;
+    border-radius: 2px;
+    background: linear-gradient(90deg, var(--jeju-teal), var(--jeju-teal-light));
+    width: 0;
+    transition: width 1.5s cubic-bezier(0.4,0,0.2,1);
+  }
+
+  /* ── NEWS CARDS ── */
+  .news-section { border-top: 1px solid var(--border); }
+
+  .news-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    overflow: hidden;
+  }
+
+  .news-card {
+    background: var(--jeju-navy);
+    padding: 40px;
+    position: relative;
+    overflow: hidden;
+    transition: background 0.4s ease;
+    cursor: pointer;
+  }
+  .news-card:hover { background: rgba(14,165,160,0.07); }
+
+  .news-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, transparent 60%, rgba(14,165,160,0.05));
+    pointer-events: none;
+  }
+
+  .news-tag {
+    display: inline-block;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--jeju-teal-light);
+    border: 1px solid rgba(94,234,212,0.3);
+    padding: 3px 10px;
+    border-radius: 20px;
+    margin-bottom: 20px;
+  }
+  .news-tag.orange { color: var(--accent-orange); border-color: rgba(249,115,22,0.3); }
+  .news-tag.coral { color: var(--accent-coral); border-color: rgba(251,113,133,0.3); }
+
+  .news-date {
+    font-size: 11px;
+    color: var(--jeju-stone);
+    margin-bottom: 12px;
+    letter-spacing: 0.05em;
+  }
+
+  .news-headline {
+    font-family: 'Noto Serif KR', serif;
+    font-size: 20px;
+    font-weight: 500;
+    line-height: 1.5;
+    margin-bottom: 14px;
+    color: var(--jeju-white);
+  }
+
+  .news-card.featured .news-headline {
+    font-size: 26px;
+  }
+
+  .news-body {
+    font-size: 13px;
+    color: var(--jeju-stone);
+    line-height: 1.8;
+  }
+
+  .news-arrow {
+    position: absolute;
+    bottom: 32px;
+    right: 32px;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    color: var(--jeju-stone);
+    transition: all 0.3s;
+  }
+  .news-card:hover .news-arrow {
+    border-color: var(--jeju-teal);
+    color: var(--jeju-teal-light);
+    transform: translate(2px, -2px);
+  }
+
+  /* ── JOBS SECTION ── */
+  .jobs-section { border-top: 1px solid var(--border); }
+
+  .jobs-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    overflow: hidden;
+  }
+
+  .job-card {
+    background: var(--jeju-navy);
+    padding: 32px 40px;
+    display: grid;
+    grid-template-columns: 60px 1fr auto;
+    gap: 24px;
+    align-items: center;
+    cursor: pointer;
+    transition: background 0.3s;
+  }
+  .job-card:hover { background: rgba(14,165,160,0.07); }
+
+  .company-icon {
+    width: 52px;
+    height: 52px;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid var(--border);
+    flex-shrink: 0;
+  }
+
+  .job-info {}
+  .job-company { font-size: 11px; color: var(--jeju-stone); letter-spacing: 0.1em; margin-bottom: 4px; }
+  .job-title { font-family: 'Noto Serif KR', serif; font-size: 17px; font-weight: 500; color: var(--jeju-white); margin-bottom: 8px; }
+  .job-tags { display: flex; gap: 8px; flex-wrap: wrap; }
+  .job-tag {
+    font-size: 10px;
+    padding: 2px 8px;
+    border-radius: 4px;
+    letter-spacing: 0.05em;
+  }
+  .job-tag.type { background: rgba(94,234,212,0.08); color: var(--jeju-teal-light); }
+  .job-tag.loc { background: rgba(255,255,255,0.05); color: var(--jeju-stone); }
+  .job-tag.hot { background: rgba(249,115,22,0.12); color: var(--accent-orange); }
+
+  .job-cta {
+    text-align: right;
+    flex-shrink: 0;
+  }
+  .job-deadline { font-size: 11px; color: var(--jeju-stone); margin-bottom: 10px; }
+  .job-btn {
+    display: inline-block;
+    padding: 8px 18px;
+    border-radius: 20px;
+    border: 1px solid rgba(14,165,160,0.4);
+    color: var(--jeju-teal-light);
+    font-size: 12px;
+    transition: all 0.3s;
+  }
+  .job-btn:hover { background: var(--jeju-teal); color: #fff; border-color: var(--jeju-teal); }
+
+  /* ── FOOTER ── */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 60px 40px;
+    text-align: center;
+    position: relative;
+    z-index: 1;
+  }
+
+  .footer-logo {
+    font-family: 'Noto Serif KR', serif;
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--jeju-teal-light);
+    margin-bottom: 12px;
+  }
+
+  .footer-sub {
+    font-size: 12px;
+    color: var(--jeju-stone);
+    margin-bottom: 32px;
+  }
+
+  .footer-links {
+    display: flex;
+    gap: 32px;
+    justify-content: center;
+    margin-bottom: 40px;
+  }
+
+  .footer-links a {
+    font-size: 12px;
+    color: var(--jeju-stone);
+    text-decoration: none;
+    letter-spacing: 0.05em;
+    transition: color 0.2s;
+  }
+  .footer-links a:hover { color: var(--jeju-teal-light); }
+
+  .footer-copy { font-size: 11px; color: rgba(138,155,176,0.5); }
+
+  /* ── DIVIDER ── */
+  .divider {
+    width: 40px;
+    height: 1px;
+    background: var(--jeju-teal);
+    margin: 0 0 48px;
+    opacity: 0.5;
+  }
+
+  /* ── CONTAINER ── */
+  .container { max-width: 1200px; margin: 0 auto; }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .fade-up {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+  }
+  .fade-up.visible { opacity: 1; transform: translateY(0); }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 900px) {
+    nav { padding: 0 20px; }
+    section { padding: 70px 20px; }
+    .dashboard-grid { grid-template-columns: repeat(2, 1fr); }
+    .news-grid { grid-template-columns: 1fr; }
+    .progress-section { grid-template-columns: 1fr; }
+    .job-card { grid-template-columns: 52px 1fr; }
+    .job-cta { display: none; }
+  }
+
+  @media (max-width: 600px) {
+    .dashboard-grid { grid-template-columns: 1fr 1fr; }
+    .footer-links { flex-direction: column; gap: 16px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">제주더큰내일센터</div>
+  <div class="nav-date">2025년 4월 뉴스레터</div>
+  <div class="nav-badge">VOL. 24</div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="orb orb-1"></div>
+  <div class="orb orb-2"></div>
+  <div class="orb orb-3"></div>
+
+  <p class="hero-eyebrow">Jeju Bigger Tomorrow Center</p>
+  <h1 class="hero-title">
+    더 큰 내일을<br><em>함께</em> 만듭니다
+  </h1>
+  <p class="hero-sub">제주의 청년들이 세상과 연결되는 공간.<br>이번 달 센터 소식과 채용 정보를 확인하세요.</p>
+  <div class="hero-pills">
+    <button class="pill pill-primary" onclick="document.getElementById('news').scrollIntoView({behavior:'smooth'})">센터 소식 보기</button>
+    <button class="pill pill-ghost" onclick="document.getElementById('jobs').scrollIntoView({behavior:'smooth'})">채용 정보 확인</button>
+  </div>
+
+  <div class="scroll-hint">
+    <span>Scroll</span>
+    <div class="scroll-line"></div>
+  </div>
+</section>
+
+<!-- DASHBOARD -->
+<section class="dashboard-section" id="dashboard">
+  <div class="container">
+    <div class="fade-up">
+      <p class="section-label">2025 현황</p>
+      <h2 class="section-title">이달의 성과 대시보드</h2>
+      <p class="section-desc">제주더큰내일센터의 이번 달 주요 지표를 한눈에 확인하세요.</p>
+    </div>
+
+    <div class="dashboard-grid fade-up">
+      <div class="stat-card">
+        <div class="stat-num">1,240<span class="stat-unit">명</span></div>
+        <div class="stat-label">누적 참여 청년</div>
+        <span class="stat-change up">▲ 이번 달 +82명</span>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">94<span class="stat-unit">%</span></div>
+        <div class="stat-label">프로그램 만족도</div>
+        <span class="stat-change up">▲ 전월 대비 +3%</span>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">38<span class="stat-unit">개</span></div>
+        <div class="stat-label">협력 기업 수</div>
+        <span class="stat-change new">이번 달 3개 신규</span>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">312<span class="stat-unit">건</span></div>
+        <div class="stat-label">취·창업 성과</div>
+        <span class="stat-change up">▲ 올해 누적</span>
+      </div>
+    </div>
+
+    <div class="progress-section fade-up">
+      <div class="progress-card">
+        <div class="progress-title">📊 프로그램별 참여율</div>
+        <div class="progress-item">
+          <div class="progress-meta"><span class="progress-name">직무역량 강화 과정</span><span class="progress-val">92%</span></div>
+          <div class="progress-bar"><div class="progress-fill" data-width="92"></div></div>
+        </div>
+        <div class="progress-item">
+          <div class="progress-meta"><span class="progress-name">창업 입문 워크숍</span><span class="progress-val">78%</span></div>
+          <div class="progress-bar"><div class="progress-fill" data-width="78"></div></div>
+        </div>
+        <div class="progress-item">
+          <div class="progress-meta"><span class="progress-name">1:1 커리어 코칭</span><span class="progress-val">85%</span></div>
+          <div class="progress-bar"><div class="progress-fill" data-width="85"></div></div>
+        </div>
+        <div class="progress-item">
+          <div class="progress-meta"><span class="progress-name">제주 로컬 기업 투어</span><span class="progress-val">100%</span></div>
+          <div class="progress-bar"><div class="progress-fill" data-width="100"></div></div>
+        </div>
+      </div>
+      <div class="progress-card">
+        <div class="progress-title">🏢 분야별 취업 성과</div>
+        <div class="progress-item">
+          <div class="progress-meta"><span class="progress-name">IT · 테크</span><span class="progress-val">34%</span></div>
+          <div class="progress-bar"><div class="progress-fill" data-width="34"></div></div>
+        </div>
+        <div class="progress-item">
+          <div class="progress-meta"><span class="progress-name">관광 · 서비스</span><span class="progress-val">28%</span></div>
+          <div class="progress-bar"><div class="progress-fill" data-width="28"></div></div>
+        </div>
+        <div class="progress-item">
+          <div class="progress-meta"><span class="progress-name">농업 · 로컬푸드</span><span class="progress-val">18%</span></div>
+          <div class="progress-bar"><div class="progress-fill" data-width="18"></div></div>
+        </div>
+        <div class="progress-item">
+          <div class="progress-meta"><span class="progress-name">문화 · 콘텐츠</span><span class="progress-val">20%</span></div>
+          <div class="progress-bar"><div class="progress-fill" data-width="20"></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- NEWS -->
+<section class="news-section" id="news">
+  <div class="container">
+    <div class="fade-up">
+      <p class="section-label">Center News</p>
+      <h2 class="section-title">센터 주요 소식</h2>
+      <div class="divider"></div>
+    </div>
+
+    <div class="news-grid fade-up">
+      <!-- Featured -->
+      <div class="news-card featured">
+        <span class="news-tag">🌊 주요 소식</span>
+        <div class="news-date">2025. 04. 01</div>
+        <h3 class="news-headline">2025년 상반기<br>청년 취·창업 프로그램<br>참가자 모집 시작</h3>
+        <p class="news-body">제주더큰내일센터가 2025년 상반기 핵심 프로그램 참가자를 모집합니다. '제주형 로컬 창업 트랙', 'IT 직무전환 집중 과정', '청년 정책 코디네이터 양성' 등 총 5개 과정이 운영되며, 만 19~39세 제주 거주 청년이라면 누구나 지원 가능합니다. 4월 30일까지 온라인 신청서를 제출해주세요.</p>
+        <div class="news-arrow">→</div>
+      </div>
+
+      <!-- Small 1 -->
+      <div class="news-card">
+        <span class="news-tag orange">🎤 행사</span>
+        <div class="news-date">2025. 03. 28</div>
+        <h3 class="news-headline">제주 청년 네트워킹 데이 성황리 마무리</h3>
+        <p class="news-body">총 120명의 청년이 참석한 이번 네트워킹 행사에서 로컬 창업가와의 멘토링 매칭이 이루어졌습니다.</p>
+        <div class="news-arrow">→</div>
+      </div>
+
+      <!-- Small 2 -->
+      <div class="news-card">
+        <span class="news-tag coral">🤝 협약</span>
+        <div class="news-date">2025. 03. 20</div>
+        <h3 class="news-headline">제주테크노파크와 디지털 역량 강화 MOU 체결</h3>
+        <p class="news-body">AI·데이터 분야 실무 교육 공동 운영 및 취업 연계를 위한 업무협약을 체결하였습니다.</p>
+        <div class="news-arrow">→</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- JOBS -->
+<section class="jobs-section" id="jobs">
+  <div class="container">
+    <div class="fade-up">
+      <p class="section-label">Recruitment</p>
+      <h2 class="section-title">기업 채용 소식</h2>
+      <p class="section-desc">센터 협력 기업의 최신 채용 공고를 확인하고 지원해보세요.</p>
+      <div class="divider"></div>
+    </div>
+
+    <div class="jobs-list fade-up">
+
+      <!-- Job 1 -->
+      <div class="job-card">
+        <div class="company-icon">🌿</div>
+        <div class="job-info">
+          <div class="job-company">㈜제주그린테크</div>
+          <div class="job-title">스마트팜 데이터 분석가 (신입·경력)</div>
+          <div class="job-tags">
+            <span class="job-tag type">정규직</span>
+            <span class="job-tag loc">📍 제주시</span>
+            <span class="job-tag hot">🔥 마감임박</span>
+          </div>
+        </div>
+        <div class="job-cta">
+          <div class="job-deadline">마감 · 04.20</div>
+          <div class="job-btn">지원하기</div>
+        </div>
+      </div>
+
+      <!-- Job 2 -->
+      <div class="job-card">
+        <div class="company-icon">🏨</div>
+        <div class="job-info">
+          <div class="job-company">제주씨드호텔</div>
+          <div class="job-title">F&B 마케팅 코디네이터 및 콘텐츠 제작자</div>
+          <div class="job-tags">
+            <span class="job-tag type">정규직</span>
+            <span class="job-tag loc">📍 서귀포시</span>
+          </div>
+        </div>
+        <div class="job-cta">
+          <div class="job-deadline">마감 · 04.30</div>
+          <div class="job-btn">지원하기</div>
+        </div>
+      </div>
+
+      <!-- Job 3 -->
+      <div class="job-card">
+        <div class="company-icon">💻</div>
+        <div class="job-info">
+          <div class="job-company">㈜오름소프트</div>
+          <div class="job-title">프론트엔드 개발자 (React / Vue 경력 1년 이상)</div>
+          <div class="job-tags">
+            <span class="job-tag type">정규직</span>
+            <span class="job-tag loc">📍 제주시 / 원격 가능</span>
+            <span class="job-tag hot">💰 연봉 협의</span>
+          </div>
+        </div>
+        <div class="job-cta">
+          <div class="job-deadline">마감 · 05.10</div>
+          <div class="job-btn">지원하기</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">제주더큰내일센터</div>
+  <div class="footer-sub">Jeju Bigger Tomorrow Center · 제주특별자치도 제주시</div>
+  <div class="footer-links">
+    <a href="#">홈페이지</a>
+    <a href="#">프로그램 신청</a>
+    <a href="#">채용 공고 전체보기</a>
+    <a href="#">뉴스레터 수신거부</a>
+    <a href="#">문의하기</a>
+  </div>
+  <div class="footer-copy">© 2025 제주더큰내일센터. 본 뉴스레터는 수신 동의 하신 분들께 발송됩니다.</div>
+</footer>
+
+<script>
+  // IntersectionObserver for fade-up
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+
+        // trigger progress bars
+        const bars = entry.target.querySelectorAll('.progress-fill');
+        bars.forEach(bar => {
+          const w = bar.getAttribute('data-width');
+          setTimeout(() => { bar.style.width = w + '%'; }, 200);
+        });
+      }
+    });
+  }, { threshold: 0.12 });
+
+  document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+  // animate stat numbers
+  function animateCount(el, target, suffix) {
+    let start = 0;
+    const duration = 1800;
+    const step = (timestamp) => {
+      if (!start) start = timestamp;
+      const progress = Math.min((timestamp - start) / duration, 1);
+      const ease = 1 - Math.pow(1 - progress, 3);
+      el.textContent = Math.floor(ease * target).toLocaleString() + suffix;
+      if (progress < 1) requestAnimationFrame(step);
+    };
+    requestAnimationFrame(step);
+  }
+
+  const statsData = [
+    { idx: 0, val: 1240, suffix: '명' },
+    { idx: 1, val: 94, suffix: '%' },
+    { idx: 2, val: 38, suffix: '개' },
+    { idx: 3, val: 312, suffix: '건' },
+  ];
+
+  const dashboardObs = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        statsData.forEach(d => {
+          const numEl = document.querySelectorAll('.stat-num')[d.idx];
+          if (numEl) animateCount(numEl, d.val, d.suffix);
+        });
+        dashboardObs.disconnect();
+      }
+    });
+  }, { threshold: 0.3 });
+
+  const dash = document.querySelector('.dashboard-grid');
+  if (dash) dashboardObs.observe(dash);
+</script>
+</body>
+</html>
